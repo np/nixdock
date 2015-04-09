@@ -1,6 +1,6 @@
-VERSION=1.7
+VERSION=1.8
 URL=https://nixos.org/releases/nix/nix-$(VERSION)/nix-$(VERSION)-x86_64-linux.tar.bz2
-SHA512SUM=34cb0a9af472522eaa53f5534dd19292ef277f8774e26b03d8eca0b3fcd2cae5d9147e21edbcaf76d0a2397c95d9793fb67d9395650f7a5d24a9eda1a8346e6a
+SHA256SUM=52fab207b4ce4d098a12d85357d0353e972c492bab0aa9e08e1600363e76fefb
 
 .PHONY: default
 
@@ -11,10 +11,7 @@ tmp:
 
 tmp/nix.tar.bz2: tmp
 	wget -O tmp/nix.tar.bz2 "$(URL)"
-	cat tmp/nix.tar.bz2 | sha512sum - |                   \
-	  if ! grep --quiet --regexp "^$(SHA512SUM) " -; then \
-	    echo 'hash mismatch' >&2; exit 1;                 \
-	  fi
+        echo "$(SHA256SUM)  tmp/nix.tar.bz2" | sha256sum -c
 
 tmp/nix-archive: tmp/nix.tar.bz2
 	mkdir -p "$@"
